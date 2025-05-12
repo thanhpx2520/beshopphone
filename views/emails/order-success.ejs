@@ -1,0 +1,48 @@
+<div style="font-family: Arial, sans-serif; color: #333; padding: 20px; background-color: #f9f9f9;">
+    <h2 style="color: #4CAF50;">Xin chào <%= name %>,</h2>
+    <p>Cảm ơn bạn đã đặt hàng tại cửa hàng của chúng tôi!</p>
+  
+    <h3 style="margin-top: 30px;">Thông tin người nhận đơn hàng</h3>
+    <ul style="list-style-type: none; padding: 0;">
+      <li><strong>Tên:</strong> <%= name %></li>
+      <li><strong>Email:</strong> <%= email %></li>
+      <li><strong>Điện thoại:</strong> <%= phone %></li>
+      <li><strong>Địa chỉ:</strong> <%= address %></li>
+    </ul>
+  
+    <h3 style="margin-top: 30px;">Chi tiết sản phẩm</h3>
+    <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+      <thead>
+        <tr style="background-color: #4CAF50; color: white;">
+          <th style="padding: 8px; border: 1px solid #ddd;">Tên sản phẩm</th>
+          <th style="padding: 8px; border: 1px solid #ddd;">Ảnh sản phẩm</th>
+          <th style="padding: 8px; border: 1px solid #ddd;">Số lượng</th>
+          <th style="padding: 8px; border: 1px solid #ddd;">Đơn giá</th>
+          <th style="padding: 8px; border: 1px solid #ddd;">Thành tiền</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% items.forEach(item => { %>
+          <tr style="background-color: #fff;">
+            <td style="padding: 8px; border: 1px solid #ddd;"><%= item.name %></td>
+            <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">
+              <% if (item.thumbnail) { %>
+                <img src="http://localhost:7979/images/<%= item.thumbnail %>" alt="<%= item.name %>" width="80" height="80" style="object-fit: cover;" />
+              <% } else { %>
+                Không có ảnh
+              <% } %>
+            </td>
+            <td style="padding: 8px; border: 1px solid #ddd; text-align: center;"><%= item.qty %></td>
+            <td style="padding: 8px; border: 1px solid #ddd; text-align: right;"><%= Number(item.price).toLocaleString('vi-VN') %>đ</td>
+            <td style="padding: 8px; border: 1px solid #ddd; text-align: right;"><%= Number(item.price * item.qty).toLocaleString('vi-VN') %>đ</td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  
+    <p style="margin-top: 20px;"><strong>Tổng cộng:</strong> <%= Number(total).toLocaleString('vi-VN') %> VND</p>
+  
+    <p>Chúng tôi sẽ liên hệ với bạn để xác nhận đơn hàng sớm nhất có thể.</p>
+    <p>Trân trọng,<br><strong>Đội ngũ cửa hàng</strong></p>
+  </div>
+  

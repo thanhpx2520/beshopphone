@@ -1,0 +1,54 @@
+<h2
+  style="
+    margin-bottom: 32px;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 33px;
+    letter-spacing: 0em;
+    text-align: left;
+  "
+>
+  Welcome, <%= name %>!
+</h2>
+<p style="margin-bottom: 12px">
+  Cảm ơn bạn đã đăng ký tài khoản, Bạn cần nhấp vào nút bên dưới để xác thực tài
+  khoản của mình:
+  <b>(Thời hạn xác thực là 5 phút)</b>
+</p>
+<div
+  style="
+    background: #6c25c1;
+    display: inline-block;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    text-align: center;
+    width: 151px;
+    padding: 8px 16px 8px 16px;
+  "
+>
+  <a
+    style="
+      margin: auto;
+      font-size: 16px;
+      text-decoration: none;
+      color: white;
+      line-height: 22px;
+    "
+    href="http://<%= host %>:<%= port %>/api/v1/auth/verify?email=<%= email %>&code=<%= code %>"
+    >Xác thực email</a
+  >
+</div>
+<p style="margin-bottom: 25px">
+  Nếu bạn gặp sự cố, hãy thử nhấp vào liên kết này
+  <a
+    style="color: #00acc4; word-wrap: break-word"
+    href="http://<%= host %>:<%= port %>/api/v1/auth/verify?email=<%= email %>&code=<%= code %>"
+  >
+    http://<%= host %>:<%= port %>/api/v1/auth/verify?email=<%= email
+    %>&code=<%= code %>
+  </a>
+</p>
+<p style="margin-bottom: 5px">Trân trọng,</p>
+<p style="margin-top: 0px">Từ nhóm Dev From Ptit</p>

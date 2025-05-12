@@ -1,0 +1,128 @@
+<%- include('../partial/header') %>
+
+<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
+  <form role="search">
+    <div class="form-group">
+      <input type="text" class="form-control" placeholder="Search">
+    </div>
+  </form>
+  <ul class="nav menu">
+    <li >
+      <a href="/admin/dashboard"
+        ><svg class="glyph stroked dashboard-dial">
+          <use xlink:href="#stroked-dashboard-dial"></use>
+        </svg>
+         Dashboard</a
+      >
+    </li>
+    <li>
+      <a href="/admin/users"
+        ><svg class="glyph stroked male user">
+          <use xlink:href="#stroked-male-user" /></svg
+        > Quản lý thành viên</a
+      >
+    </li>
+    <li class="active">
+      <a href="/admin/categories"
+        ><svg class="glyph stroked open folder">
+          <use xlink:href="#stroked-open-folder" /></svg
+        > Quản lý danh mục</a
+      >
+    </li>
+    <li>
+      <a href="/admin/products"
+        ><svg class="glyph stroked bag">
+          <use xlink:href="#stroked-bag"></use></svg
+        > Quản lý sản phẩm</a
+      >
+    </li>
+   
+  </ul>
+</div><!--/.sidebar-->
+
+<div class='col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main'>
+  <div class='row'>
+    <ol class='breadcrumb'>
+      <li><a href='/admin/dashboard'><svg class='glyph stroked home'><use xlink:href='#stroked-home'></use></svg></a></li>
+      <li class='active'>Quản lý danh mục</li>
+    </ol>
+  </div><!--/.row-->
+
+  <div class='row'>
+    <div class='col-lg-12'>
+      <h1 class='page-header'>Danh sách danh mục</h1>
+    </div>
+  </div><!--/.row-->
+
+  <div id='toolbar' class='btn-group'>
+    <a href='categories/add' class='btn btn-success'>
+      <i class='glyphicon glyphicon-plus'></i> Thêm danh mục
+    </a>
+  </div>
+
+  <div class='row'>
+    <div class='col-md-12'>
+      <div class='panel panel-default'>
+        <div class='panel-body'>
+          <table data-toolbar='#toolbar' data-toggle='table'>
+            <thead>
+              <tr>
+                <th data-field='id' data-sortable='true'>ID</th>
+                <th>Tên danh mục</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (newCategories && newCategories.length > 0) { %>
+                <% newCategories.forEach(function(category) { %>
+                  <tr>
+                    <td><%= category._id %></td>
+                    <td><%= category.title %></td>
+                    <td class='form-group'>
+                      <a href='categories/edit/<%= category._id %>' class='btn btn-primary'>
+                        <i class='glyphicon glyphicon-pencil'></i>
+                      </a>
+                      <a href='categories/delete/<%= category._id %>' class='btn btn-danger'>
+                        <i class='glyphicon glyphicon-remove'></i>
+                      </a>
+                    </td>
+                  </tr>
+                <% }); %>
+              <% } else { %>
+                <tr><td colspan="3">No categories found.</td></tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class='panel-footer'>
+          <nav aria-label='Page navigation example'>
+            <ul class='pagination'>
+              <% if (pages && pages.hasPrev) { %>
+                <li class='page-item'>
+                  <a class='page-link' href='?page=<%= pages.prev %>'>&laquo;</a>
+                </li>
+              <% } %>
+
+              <% for (let i = 1; i <= pages.totalPages; i++) { %>
+                <li class='page-item <%= i === pages.currentPage ? "active" : "" %>'>
+                  <a class='page-link' href='?page=<%= i %>'><%= i %></a>
+                </li>
+              <% } %>
+
+              <% if (pages && pages.hasNext) { %>
+                <li class='page-item'>
+                  <a class='page-link' href='?page=<%= pages.next %>'>&raquo;</a>
+                </li>
+              <% } %>
+            </ul>
+          </nav>
+        </div>
+
+      </div>
+    </div>
+  </div><!--/.row-->
+</div><!--/.main-->
+
+<%- include('../partial/footer') %>

@@ -8,35 +8,46 @@
   </form>
   <ul class="nav menu">
     <li class="active">
-      <a href="/admin/dashboard"
-        ><svg class="glyph stroked dashboard-dial">
+      <a href="/admin/dashboard"><svg class="glyph stroked dashboard-dial">
           <use xlink:href="#stroked-dashboard-dial"></use>
         </svg>
-         Dashboard</a
-      >
+        Dashboard</a>
     </li>
     <li>
-      <a href="/admin/users"
-        ><svg class="glyph stroked male user">
-          <use xlink:href="#stroked-male-user" /></svg
-        > Quản lý thành viên</a
-      >
+      <a href="/admin/users"><svg class="glyph stroked bag">
+          <use xlink:href="#stroked-app-window"></use>
+        </svg> Quản lý thành viên</a>
     </li>
     <li>
-      <a href="/admin/categories"
-        ><svg class="glyph stroked open folder">
-          <use xlink:href="#stroked-open-folder" /></svg
-        > Quản lý danh mục</a
-      >
+      <a href="/admin/categories"><svg class="glyph stroked bag">
+          <use xlink:href="#stroked-app-window"></use>
+        </svg> Quản lý danh mục</a>
     </li>
     <li>
-      <a href="/admin/products"
-        ><svg class="glyph stroked bag">
-          <use xlink:href="#stroked-bag"></use></svg
-        > Quản lý sản phẩm</a
-      >
+      <a href="/admin/products"><svg class="glyph stroked bag">
+          <use xlink:href="#stroked-app-window"></use>
+        </svg> Quản lý sản phẩm</a>
     </li>
-   
+    <li>
+      <a href="/admin/comments"><svg class="glyph stroked bag">
+          <use xlink:href="#stroked-app-window"></use>
+        </svg> Quản lý bình luận</a>
+    </li>
+    <li>
+      <a href="/admin/orders"><svg class="glyph stroked bag">
+          <use xlink:href="#stroked-app-window"></use>
+        </svg> Quản lý đơn hàng</a>
+    </li>
+    <li>
+      <a href="/admin/sliders"><svg class="glyph stroked bag">
+          <use xlink:href="#stroked-app-window"></use>
+        </svg> Quản lý slider</a>
+    </li>
+    <li>
+      <a href="/admin/banners"><svg class="glyph stroked bag">
+          <use xlink:href="#stroked-app-window"></use>
+        </svg> Quản lý quảng cáo</a>
+    </li>
   </ul>
 </div>
 <!--/.sidebar-->
@@ -45,10 +56,9 @@
   <div class="row">
     <ol class="breadcrumb">
       <li>
-        <a href="/admin/dashboard"
-          ><svg class="glyph stroked home">
-            <use xlink:href="#stroked-home"></use></svg
-        ></a>
+        <a href="/admin/dashboard"><svg class="glyph stroked home">
+            <use xlink:href="#stroked-home"></use>
+          </svg></a>
       </li>
       <li class="active">Trang chủ quản trị</li>
     </ol>
@@ -64,82 +74,82 @@
 
   <div class="row">
     <a href="/admin/products">
-    <div class="col-xs-12 col-md-6 col-lg-3">
-      <div class="panel panel-blue panel-widget">
-        <div class="row no-padding">
-          <div class="col-sm-3 col-lg-5 widget-left">
-            <svg class="glyph stroked bag">
-              <use xlink:href="#stroked-bag"></use>
-            </svg>
-          </div>
-          <div class="col-sm-9 col-lg-7 widget-right">
+      <div class="col-xs-12 col-md-6 col-lg-3">
+        <div class="panel panel-blue panel-widget">
+          <div class="row no-padding">
+            <div class="col-sm-3 col-lg-5 widget-left">
+              <svg class="glyph stroked bag">
+                <use xlink:href="#stroked-bag"></use>
+              </svg>
+            </div>
+            <div class="col-sm-9 col-lg-7 widget-right">
 
               <% if (productsCount) { %>
-               <div class="large"><%= productsCount %></div>
-               <% } %>
-               <div class="text-muted">Sản Phẩm</div>
-               
-              </div>
+              <div class="large"><%= productsCount %></div>
+              <% } %>
+              <div class="text-muted">Sản Phẩm</div>
+
             </div>
           </div>
         </div>
-      </a>
+      </div>
+    </a>
     <a href="/admin/comments">
 
-        <div class="col-xs-12 col-md-6 col-lg-3">
-      <div class="panel panel-orange panel-widget">
-        <div class="row no-padding">
-          <div class="col-sm-3 col-lg-5 widget-left">
-            <svg class="glyph stroked empty-message">
-              <use xlink:href="#stroked-empty-message"></use>
-            </svg>
-          </div>
-          <div class="col-sm-9 col-lg-7 widget-right">
-            <div class="large"><%= commentsCount %></div>
-            <div class="text-muted">Bình Luận</div>
+      <div class="col-xs-12 col-md-6 col-lg-3">
+        <div class="panel panel-orange panel-widget">
+          <div class="row no-padding">
+            <div class="col-sm-3 col-lg-5 widget-left">
+              <svg class="glyph stroked empty-message">
+                <use xlink:href="#stroked-empty-message"></use>
+              </svg>
+            </div>
+            <div class="col-sm-9 col-lg-7 widget-right">
+              <div class="large"><%= commentsCount %></div>
+              <div class="text-muted">Bình Luận</div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-      </a>
+    </a>
 
     <a href="/admin/users">
 
-    <div class="col-xs-12 col-md-6 col-lg-3">
-      <div class="panel panel-teal panel-widget">
-        <div class="row no-padding">
-          <div class="col-sm-3 col-lg-5 widget-left">
-            <svg class="glyph stroked male-user">
-              <use xlink:href="#stroked-male-user"></use>
-            </svg>
-          </div>
-          <div class="col-sm-9 col-lg-7 widget-right">
-            <div class="large"><%= usersCount %></div>
-            <div class="text-muted">Thành Viên</div>
+      <div class="col-xs-12 col-md-6 col-lg-3">
+        <div class="panel panel-teal panel-widget">
+          <div class="row no-padding">
+            <div class="col-sm-3 col-lg-5 widget-left">
+              <svg class="glyph stroked male-user">
+                <use xlink:href="#stroked-male-user"></use>
+              </svg>
+            </div>
+            <div class="col-sm-9 col-lg-7 widget-right">
+              <div class="large"><%= usersCount %></div>
+              <div class="text-muted">Thành Viên</div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-      </a>
+    </a>
 
     <a href="/admin/orders">
 
-    <div class="col-xs-12 col-md-6 col-lg-3">
-      <div class="panel panel-red panel-widget">
-        <div class="row no-padding">
-          <div class="col-sm-3 col-lg-5 widget-left">
-            <svg class="glyph stroked app-window-with-content">
-              <use xlink:href="#stroked-app-window-with-content"></use>
-            </svg>
-          </div>
-          <div class="col-sm-9 col-lg-7 widget-right">
-            <div class="large"><%= ordersCount %></div>
-            <div class="text-muted">Đơn hàng</div>
+      <div class="col-xs-12 col-md-6 col-lg-3">
+        <div class="panel panel-red panel-widget">
+          <div class="row no-padding">
+            <div class="col-sm-3 col-lg-5 widget-left">
+              <svg class="glyph stroked app-window-with-content">
+                <use xlink:href="#stroked-app-window-with-content"></use>
+              </svg>
+            </div>
+            <div class="col-sm-9 col-lg-7 widget-right">
+              <div class="large"><%= ordersCount %></div>
+              <div class="text-muted">Đơn hàng</div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-      </a>
+    </a>
 
   </div>
   <!--/.row-->

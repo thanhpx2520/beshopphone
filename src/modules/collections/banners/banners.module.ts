@@ -10,5 +10,6 @@ import { Banner, BannerSchema } from './schemas/banner.schema';
   ],
   controllers: [BannersController],
   providers: [BannersService],
+  exports: [BannersService, MongooseModule],
 })
 export class BannersModule {}

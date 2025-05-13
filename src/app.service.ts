@@ -11,6 +11,8 @@ import * as fs from 'fs';
 import path, { join } from 'path';
 import { createFolderAndSaveFile, deleteImageFile } from './helpers/utils';
 import { name } from 'ejs';
+import { Banner } from './modules/collections/banners/schemas/banner.schema';
+import { Slider } from './modules/collections/sliders/schemas/slider.schema';
 
 @Injectable()
 export class AppService {
@@ -18,9 +20,10 @@ export class AppService {
     @InjectModel(Product.name) private productModel: Model<Product>,
     @InjectModel(Comment.name) private commentModel: Model<Comment>,
     @InjectModel(Order.name) private orderModel: Model<Order>,
+    @InjectModel(Banner.name) private bannerModel: Model<Banner>,
     @InjectModel(Auth.name) private authModel: Model<Auth>,
+    @InjectModel(Slider.name) private sliderModel: Model<Slider>,
     @InjectModel(Category.name) private categoryModel: Model<Category>,
-    // @InjectModel(Order.name) private orderModel: Model<Order>,
   ) {}
   getHello(): string {
     return 'Hello World!';
@@ -167,8 +170,6 @@ export class AppService {
     const { re_password, ...data } = body;
     const updated = await this.authModel.findByIdAndUpdate({ _id: id }, data);
 
-    console.log(updated);
-
     if (updated) {
       return {
         url: '/admin/users',
@@ -186,8 +187,6 @@ export class AppService {
     const product = await this.productModel.findOne({
       _id: id,
     });
-
-    console.log(product);
 
     const file = await req.file();
     let data = {};
@@ -227,8 +226,6 @@ export class AppService {
         slug: fileSaved.fields.prd_name.value,
       };
     }
-
-    console.log(data);
 
     await this.productModel.findByIdAndUpdate({ _id: id }, data);
 
@@ -434,4 +431,364 @@ export class AppService {
       url: `/admin/users`,
     };
   }
+
+  // BANNER START---------------------------------------------------------------------------------------------------------------------------
+
+  // Hàm lấy tất cả (banner) web khác
+  async getAllBanners(query: any) {
+    const limit = parseInt(query.limit) || 10;
+    const page = parseInt(query.page) || 1;
+
+    const total = await this.bannerModel.countDocuments();
+    const totalPages = Math.ceil(total / limit);
+
+    const banners = await this.bannerModel
+      .find()
+      .sort({ position: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit);
+
+    return {
+      banners,
+      pages: {
+        total,
+        limit,
+        totalPages,
+        currentPage: page,
+        hasNext: page < totalPages,
+        hasPrev: page > 1,
+        next: page < totalPages ? page + 1 : null,
+        prev: page > 1 ? page - 1 : null,
+      },
+    };
+  }
+
+  // Hàm lưu thêm mới banner
+  async postAddBanner(req: any) {
+    const file = await req.file();
+    const fileSaved = await createFolderAndSaveFile('', file);
+
+    const maxBanner = await this.bannerModel
+      .findOne()
+      .sort({ position: -1 })
+      .exec();
+
+    const nextPosition = maxBanner ? maxBanner.position + 1 : 1;
+
+    const data = {
+      image: fileSaved?.filename,
+      url: fileSaved.fields.url.value,
+      public: fileSaved.fields.public.value,
+      position: nextPosition,
+    };
+
+    const createdBanner = await this.bannerModel.create(data);
+
+    if (createdBanner) {
+      return { url: '/admin/banners' };
+    } else {
+      return { url: '/admin/banners/add' };
+    }
+  }
+
+  // Hàm lấy banner bằng id
+  async getBannerById(id: string) {
+    const banner = await this.bannerModel.findById(id);
+
+    return {
+      banner,
+    };
+  }
+
+  // Hàm sửa banner bằng id
+  async postEditBannerById(id: string, req: any) {
+    let data = {};
+    const file = await req.file();
+    const banner = await this.bannerModel.findOne({
+      _id: id,
+    });
+    if (file.filename === '') {
+      data = {
+        url: file.fields.url.value,
+        public: file.fields.public.value,
+      };
+    } else {
+      const fileSaved = await createFolderAndSaveFile('', file);
+      const fileName = banner?.image || '';
+      await deleteImageFile('', fileName);
+      data = {
+        image: fileSaved.filename,
+        url: fileSaved.fields.url.value,
+        public: fileSaved.fields.public.value,
+      };
+    }
+    await this.bannerModel.findByIdAndUpdate({ _id: id }, data);
+    return {
+      url: `/admin/banners`,
+    };
+  }
+
+  // Hàm xóa banner bằng id
+  async getDeleteBannerById(id: string) {
+    const banner = await this.bannerModel.findOne({ _id: id });
+    const nameImage = banner?.image || '';
+
+    const deleted = await this.bannerModel.findOneAndDelete({ _id: id });
+    await deleteImageFile('', nameImage);
+
+    if (deleted) {
+      return {
+        url: `/admin/banners`,
+      };
+    }
+
+    return {
+      url: `/admin/banners`,
+    };
+  }
+
+  // BANNER END---------------------------------------------------------------------------------------------------------------------------
+  // COMMENT START--------------------------------------------------------------------------------------------------------------------------
+
+  // Hàm lấy tất cả (comment) bình luận
+  async getAllComments(query: any) {
+    const limit = parseInt(query.limit) || 10;
+    const page = parseInt(query.page) || 1;
+
+    const total = await this.commentModel.countDocuments();
+    const totalPages = Math.ceil(total / limit);
+
+    const comments = await this.commentModel
+      .find()
+      .sort({ createdAt: -1 })
+      .populate('prd_id')
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .exec();
+
+    return {
+      comments,
+      pages: {
+        total,
+        limit,
+        totalPages,
+        currentPage: page,
+        hasNext: page < totalPages,
+        hasPrev: page > 1,
+        next: page < totalPages ? page + 1 : null,
+        prev: page > 1 ? page - 1 : null,
+      },
+    };
+  }
+
+  // Hàm lấy comment bằng id
+  async getCommentById(id: string) {
+    const comment = await this.commentModel.findById(id).populate('prd_id');
+
+    return {
+      comment,
+    };
+  }
+
+  // Hàm sửa comment bằng id
+  async postEditCommentById(id: string, body: any) {
+    await this.commentModel.findByIdAndUpdate({ _id: id }, body);
+    return {
+      url: `/admin/comments`,
+    };
+  }
+
+  // Hàm xóa comment bằng id
+  async getDeleteCommentById(id: string) {
+    const deleted = await this.commentModel.findOneAndDelete({ _id: id });
+    if (deleted) {
+      return {
+        url: `/admin/comments`,
+      };
+    }
+
+    return {
+      url: `/admin/comments`,
+    };
+  }
+
+  // COMMENT END--------------------------------------------------------------------------------------------------------------------------
+  // ORDER START----------------------------------------------------------------------------------------------------------------------------
+
+  // Hàm lấy tất cả (order) đơn hàng
+  async getAllOrders(query: any) {
+    const limit = parseInt(query.limit) || 10;
+    const page = parseInt(query.page) || 1;
+
+    const total = await this.orderModel.countDocuments();
+    const totalPages = Math.ceil(total / limit);
+
+    const orders = await this.orderModel
+      .find()
+      .sort({ createdAt: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .exec();
+
+    return {
+      orders,
+      pages: {
+        total,
+        limit,
+        totalPages,
+        currentPage: page,
+        hasNext: page < totalPages,
+        hasPrev: page > 1,
+        next: page < totalPages ? page + 1 : null,
+        prev: page > 1 ? page - 1 : null,
+      },
+    };
+  }
+
+  // Hàm lấy order bằng id
+  async getOrderById(id: string) {
+    const order = await this.orderModel.findById(id).populate('items.prd_id');
+
+    return {
+      order,
+    };
+  }
+
+  // Hàm sửa order bằng id
+  async postEditOrderById(id: string, body: any) {
+    await this.orderModel.findByIdAndUpdate({ _id: id }, body);
+    return {
+      url: `/admin/orders`,
+    };
+  }
+
+  // Hàm xóa order bằng id
+  async getDeleteOrderById(id: string) {
+    const deleted = await this.orderModel.findOneAndDelete({ _id: id });
+    if (deleted) {
+      return {
+        url: `/admin/orders`,
+      };
+    }
+
+    return {
+      url: `/admin/orders`,
+    };
+  }
+
+  // ORDER END----------------------------------------------------------------------------------------------------------------------------
+  // SLIDER START---------------------------------------------------------------------------------------------------------------------------
+
+  // Hàm lấy tất cả (slider) quảng cáo
+  async getAllSliders(query: any) {
+    const limit = parseInt(query.limit) || 10;
+    const page = parseInt(query.page) || 1;
+
+    const total = await this.sliderModel.countDocuments();
+    const totalPages = Math.ceil(total / limit);
+
+    const sliders = await this.sliderModel
+      .find()
+      .sort({ createdAt: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .exec();
+
+    return {
+      sliders,
+      pages: {
+        total,
+        limit,
+        totalPages,
+        currentPage: page,
+        hasNext: page < totalPages,
+        hasPrev: page > 1,
+        next: page < totalPages ? page + 1 : null,
+        prev: page > 1 ? page - 1 : null,
+      },
+    };
+  }
+
+  // Hàm lưu thêm mới slider
+  async postAddSlider(req: any) {
+    const file = await req.file();
+    const fileSaved = await createFolderAndSaveFile('', file);
+
+    const maxSlider = await this.sliderModel
+      .findOne()
+      .sort({ position: -1 })
+      .exec();
+
+    const nextPosition = maxSlider ? maxSlider.position + 1 : 1;
+
+    const data = {
+      image: fileSaved?.filename,
+      public: fileSaved.fields.public.value,
+      position: nextPosition,
+    };
+
+    const createdSlider = await this.sliderModel.create(data);
+
+    if (createdSlider) {
+      return { url: '/admin/sliders' };
+    } else {
+      return { url: '/admin/sliders/add' };
+    }
+  }
+
+  // Hàm lấy slider bằng id
+  async getSliderById(id: string) {
+    const slider = await this.sliderModel.findById(id);
+
+    return {
+      slider,
+    };
+  }
+
+  // Hàm sửa slider bằng id
+  async postEditSliderById(id: string, req: any) {
+    let data = {};
+    const file = await req.file();
+    const slider = await this.sliderModel.findOne({
+      _id: id,
+    });
+    if (file.filename === '') {
+      data = {
+        public: file.fields.public.value,
+      };
+    } else {
+      const fileSaved = await createFolderAndSaveFile('', file);
+      const fileName = slider?.image || '';
+      await deleteImageFile('', fileName);
+      data = {
+        image: fileSaved.filename,
+        public: fileSaved.fields.public.value,
+      };
+    }
+    await this.sliderModel.findByIdAndUpdate({ _id: id }, data);
+    return {
+      url: `/admin/sliders`,
+    };
+  }
+
+  // Hàm xóa slider bằng id
+  async getDeleteSliderById(id: string) {
+    const slider = await this.sliderModel.findOne({ _id: id });
+    const nameImage = slider?.image || '';
+
+    const deleted = await this.sliderModel.findOneAndDelete({ _id: id });
+    await deleteImageFile('', nameImage);
+
+    if (deleted) {
+      return {
+        url: `/admin/sliders`,
+      };
+    }
+
+    return {
+      url: `/admin/sliders`,
+    };
+  }
+
+  // SLIDER END---------------------------------------------------------------------------------------------------------------------------
 }

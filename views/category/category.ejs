@@ -7,52 +7,68 @@
     </div>
   </form>
   <ul class="nav menu">
-    <li >
-      <a href="/admin/dashboard"
-        ><svg class="glyph stroked dashboard-dial">
+    <li>
+      <a href="/admin/dashboard"><svg class="glyph stroked dashboard-dial">
           <use xlink:href="#stroked-dashboard-dial"></use>
         </svg>
-         Dashboard</a
-      >
+        Dashboard</a>
     </li>
     <li>
-      <a href="/admin/users"
-        ><svg class="glyph stroked male user">
-          <use xlink:href="#stroked-male-user" /></svg
-        > Quản lý thành viên</a
-      >
+      <a href="/admin/users"><svg class="glyph stroked bag">
+          <use xlink:href="#stroked-app-window"></use>
+        </svg> Quản lý thành viên</a>
     </li>
     <li class="active">
-      <a href="/admin/categories"
-        ><svg class="glyph stroked open folder">
-          <use xlink:href="#stroked-open-folder" /></svg
-        > Quản lý danh mục</a
-      >
+      <a href="/admin/categories"><svg class="glyph stroked bag">
+          <use xlink:href="#stroked-app-window"></use>
+        </svg> Quản lý danh mục</a>
     </li>
     <li>
-      <a href="/admin/products"
-        ><svg class="glyph stroked bag">
-          <use xlink:href="#stroked-bag"></use></svg
-        > Quản lý sản phẩm</a
-      >
+      <a href="/admin/products"><svg class="glyph stroked bag">
+          <use xlink:href="#stroked-app-window"></use>
+        </svg> Quản lý sản phẩm</a>
     </li>
-   
+    <li>
+      <a href="/admin/comments"><svg class="glyph stroked bag">
+          <use xlink:href="#stroked-app-window"></use>
+        </svg> Quản lý bình luận</a>
+    </li>
+    <li>
+      <a href="/admin/orders"><svg class="glyph stroked bag">
+          <use xlink:href="#stroked-app-window"></use>
+        </svg> Quản lý đơn hàng</a>
+    </li>
+    <li>
+      <a href="/admin/sliders"><svg class="glyph stroked bag">
+          <use xlink:href="#stroked-app-window"></use>
+        </svg> Quản lý slider</a>
+    </li>
+    <li>
+      <a href="/admin/banners"><svg class="glyph stroked bag">
+          <use xlink:href="#stroked-app-window"></use>
+        </svg> Quản lý quảng cáo</a>
+    </li>
   </ul>
-</div><!--/.sidebar-->
+</div>
+<!--/.sidebar-->
 
 <div class='col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main'>
   <div class='row'>
     <ol class='breadcrumb'>
-      <li><a href='/admin/dashboard'><svg class='glyph stroked home'><use xlink:href='#stroked-home'></use></svg></a></li>
+      <li><a href='/admin/dashboard'><svg class='glyph stroked home'>
+            <use xlink:href='#stroked-home'></use>
+          </svg></a></li>
       <li class='active'>Quản lý danh mục</li>
     </ol>
-  </div><!--/.row-->
+  </div>
+  <!--/.row-->
 
   <div class='row'>
     <div class='col-lg-12'>
       <h1 class='page-header'>Danh sách danh mục</h1>
     </div>
-  </div><!--/.row-->
+  </div>
+  <!--/.row-->
 
   <div id='toolbar' class='btn-group'>
     <a href='categories/add' class='btn btn-success'>
@@ -74,55 +90,69 @@
             </thead>
             <tbody>
               <% if (newCategories && newCategories.length > 0) { %>
-                <% newCategories.forEach(function(category) { %>
-                  <tr>
-                    <td><%= category._id %></td>
-                    <td><%= category.title %></td>
-                    <td class='form-group'>
-                      <a href='categories/edit/<%= category._id %>' class='btn btn-primary'>
-                        <i class='glyphicon glyphicon-pencil'></i>
-                      </a>
-                      <a href='categories/delete/<%= category._id %>' class='btn btn-danger'>
-                        <i class='glyphicon glyphicon-remove'></i>
-                      </a>
-                    </td>
-                  </tr>
-                <% }); %>
+              <% newCategories.forEach(function(category) { %>
+              <tr>
+                <td><%= category._id %></td>
+                <td><%= category.title %></td>
+                <td class='form-group'>
+                  <a href='categories/edit/<%= category._id %>' class='btn btn-primary'>
+                    <i class='glyphicon glyphicon-pencil'></i>
+                  </a>
+                  <a href='categories/delete/<%= category._id %>' class='btn btn-danger' onclick="return confirm('Bạn có chắc chắn muốn xoá danh mục này không?');">
+                    <i class='glyphicon glyphicon-remove'></i>
+                  </a>
+                </td>
+              </tr>
+              <% }); %>
               <% } else { %>
-                <tr><td colspan="3">No categories found.</td></tr>
+              <tr>
+                <td colspan="3">No categories found.</td>
+              </tr>
               <% } %>
             </tbody>
           </table>
         </div>
 
         <!-- Pagination -->
-        <div class='panel-footer'>
-          <nav aria-label='Page navigation example'>
-            <ul class='pagination'>
-              <% if (pages && pages.hasPrev) { %>
-                <li class='page-item'>
-                  <a class='page-link' href='?page=<%= pages.prev %>'>&laquo;</a>
-                </li>
+        <% if (pages?.totalPages >= 1) { %>
+        <div class="panel-footer">
+          <nav aria-label="Page navigation">
+            <ul class="pagination">
+              <% if (pages?.hasPrev) { %>
+              <li class="page-item">
+                <a class="page-link" href="?page=<%= pages?.prev %>">&laquo;</a>
+              </li>
+              <% } else { %>
+              <li class="page-item disabled">
+                <span class="page-link">&laquo;</span>
+              </li>
               <% } %>
 
-              <% for (let i = 1; i <= pages.totalPages; i++) { %>
-                <li class='page-item <%= i === pages.currentPage ? "active" : "" %>'>
-                  <a class='page-link' href='?page=<%= i %>'><%= i %></a>
-                </li>
+              <% for (let i = 1; i <= pages?.totalPages; i++) { %>
+              <li class="page-item <%= i === pages?.currentPage ? 'active' : '' %>">
+                <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+              </li>
               <% } %>
 
-              <% if (pages && pages.hasNext) { %>
-                <li class='page-item'>
-                  <a class='page-link' href='?page=<%= pages.next %>'>&raquo;</a>
-                </li>
+              <% if (pages?.hasNext) { %>
+              <li class="page-item">
+                <a class="page-link" href="?page=<%= pages?.next %>">&raquo;</a>
+              </li>
+              <% } else { %>
+              <li class="page-item disabled">
+                <span class="page-link">&raquo;</span>
+              </li>
               <% } %>
             </ul>
           </nav>
         </div>
+        <% } %>
 
       </div>
     </div>
-  </div><!--/.row-->
-</div><!--/.main-->
+  </div>
+  <!--/.row-->
+</div>
+<!--/.main-->
 
 <%- include('../partial/footer') %>

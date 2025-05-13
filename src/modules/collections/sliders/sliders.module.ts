@@ -10,5 +10,6 @@ import { Slider, SliderSchema } from './schemas/slider.schema';
   ],
   controllers: [SlidersController],
   providers: [SlidersService],
+  exports: [SlidersService, MongooseModule],
 })
 export class SlidersModule {}

@@ -224,4 +224,173 @@ export class AppController {
   userDeletePost(@Param('id') id: string, @Body() body: any) {
     return this.appService.deleteUserById(id, body);
   }
+
+  // BANNER START--------------------------------------------------------------------------------------
+  // Lấy tất cả (banner) web khác
+  @Get('banners')
+  @UseGuards(AuthenticatedGuard)
+  @Render('banner/banner')
+  getAllBanner(@Query() query: any) {
+    return this.appService.getAllBanners(query);
+  }
+
+  // Hiển thị trang thêm mới banner
+  @Get('banners/add')
+  @UseGuards(AuthenticatedGuard)
+  @Render('banner/add-banner')
+  getAddBanner() {
+    return { data: {} };
+  }
+
+  // Gửi thông tin banner để thêm mới
+  @Post('banners/add')
+  @UseGuards(AuthenticatedGuard)
+  @Redirect()
+  postAddBanner(@Req() req: FastifyRequest) {
+    return this.appService.postAddBanner(req);
+  }
+
+  // Hiển thị trang sửa banner bằng id
+  @Get('banners/edit/:id')
+  @UseGuards(AuthenticatedGuard)
+  @Render('banner/edit-banner')
+  getBannerById(@Param('id') id: string) {
+    return this.appService.getBannerById(id);
+  }
+
+  // Gửi thông tin để sửa banner bằng id
+  @Post('banners/edit/:id')
+  @UseGuards(AuthenticatedGuard)
+  @Redirect()
+  postEditBannerById(@Param('id') id: string, @Req() req: FastifyRequest) {
+    return this.appService.postEditBannerById(id, req);
+  }
+
+  // Xóa banner
+  @Get('banners/delete/:id')
+  @UseGuards(AuthenticatedGuard)
+  @Redirect()
+  getDeleteBannerById(@Param('id') id: string) {
+    return this.appService.getDeleteBannerById(id);
+  }
+
+  // BANNER END--------------------------------------------------------------------------------------
+  // COMMENT START--------------------------------------------------------------------------------------
+  // Lấy tất cả (comment) bình luận
+  @Get('comments')
+  @UseGuards(AuthenticatedGuard)
+  @Render('comment/comment')
+  getAllComment(@Query() query: any) {
+    return this.appService.getAllComments(query);
+  }
+
+  // Hiển thị trang sửa comment bằng id
+  @Get('comments/edit/:id')
+  @UseGuards(AuthenticatedGuard)
+  @Render('comment/edit-comment')
+  getCommentById(@Param('id') id: string) {
+    return this.appService.getCommentById(id);
+  }
+
+  // Gửi thông tin để sửa comment bằng id
+  @Post('comments/edit/:id')
+  @UseGuards(AuthenticatedGuard)
+  @Redirect()
+  postEditCommentById(@Param('id') id: string, @Body() body: any) {
+    return this.appService.postEditCommentById(id, body);
+  }
+
+  // Xóa comment
+  @Get('comments/delete/:id')
+  @UseGuards(AuthenticatedGuard)
+  @Redirect()
+  getDeleteCommentById(@Param('id') id: string) {
+    return this.appService.getDeleteCommentById(id);
+  }
+
+  // COMMENT END--------------------------------------------------------------------------------------
+  // ORDER START----------------------------------------------------------------------------------------
+  // Lấy tất cả (order) đơn hàng
+  @Get('orders')
+  @UseGuards(AuthenticatedGuard)
+  @Render('order/order')
+  getAllOrder(@Query() query: any) {
+    return this.appService.getAllOrders(query);
+  }
+
+  // Hiển thị trang sửa order bằng id
+  @Get('orders/edit/:id')
+  @UseGuards(AuthenticatedGuard)
+  @Render('order/edit-order')
+  getOrderById(@Param('id') id: string) {
+    return this.appService.getOrderById(id);
+  }
+
+  // Gửi thông tin để sửa order bằng id
+  @Post('orders/edit/:id')
+  @UseGuards(AuthenticatedGuard)
+  @Redirect()
+  postEditOrderById(@Param('id') id: string, @Body() body: any) {
+    return this.appService.postEditOrderById(id, body);
+  }
+
+  // Xóa order
+  @Get('orders/delete/:id')
+  @UseGuards(AuthenticatedGuard)
+  @Redirect()
+  getDeleteOrderById(@Param('id') id: string) {
+    return this.appService.getDeleteOrderById(id);
+  }
+
+  // ORDER END----------------------------------------------------------------------------------------
+  // SLIDER START----------------------------------------------------------------------------------------
+  // Lấy tất cả (slider) quảng cáo
+  @Get('sliders')
+  @UseGuards(AuthenticatedGuard)
+  @Render('slider/slider')
+  getAllSlider(@Query() query: any) {
+    return this.appService.getAllSliders(query);
+  }
+
+  // Hiển thị trang thêm mới slider
+  @Get('sliders/add')
+  @UseGuards(AuthenticatedGuard)
+  @Render('slider/add-slider')
+  getAddSlider() {
+    return { data: {} };
+  }
+
+  // Gửi thông tin slider để thêm mới
+  @Post('sliders/add')
+  @UseGuards(AuthenticatedGuard)
+  @Redirect()
+  postAddSlider(@Req() req: FastifyRequest) {
+    return this.appService.postAddSlider(req);
+  }
+
+  // Hiển thị trang sửa slider bằng id
+  @Get('sliders/edit/:id')
+  @UseGuards(AuthenticatedGuard)
+  @Render('slider/edit-slider')
+  getSliderById(@Param('id') id: string) {
+    return this.appService.getSliderById(id);
+  }
+
+  // Gửi thông tin để sửa slider bằng id
+  @Post('sliders/edit/:id')
+  @UseGuards(AuthenticatedGuard)
+  @Redirect()
+  postEditSliderById(@Param('id') id: string, @Req() req: FastifyRequest) {
+    return this.appService.postEditSliderById(id, req);
+  }
+
+  // Xóa slider
+  @Get('sliders/delete/:id')
+  @UseGuards(AuthenticatedGuard)
+  @Redirect()
+  getDeleteSliderById(@Param('id') id: string) {
+    return this.appService.getDeleteSliderById(id);
+  }
+
+  // SLIDER END----------------------------------------------------------------------------------------
 }

@@ -1,0 +1,175 @@
+<%- include('../partial/header') %>
+
+<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
+  <form role="search">
+    <div class="form-group">
+      <input type="text" class="form-control" placeholder="Search" />
+    </div>
+  </form>
+  <ul class="nav menu">
+    <li>
+      <a href="/admin/dashboard"
+        ><svg class="glyph stroked dashboard-dial">
+          <use xlink:href="#stroked-dashboard-dial"></use>
+        </svg>
+        Dashboard</a
+      >
+    </li>
+    <li>
+      <a href="/admin/users"
+        ><svg class="glyph stroked bag">
+          <use xlink:href="#stroked-app-window"></use>
+        </svg>
+        Quản lý thành viên</a
+      >
+    </li>
+    <li>
+      <a href="/admin/categories"
+        ><svg class="glyph stroked bag">
+          <use xlink:href="#stroked-app-window"></use>
+        </svg>
+        Quản lý danh mục</a
+      >
+    </li>
+    <li>
+      <a href="/admin/products"
+        ><svg class="glyph stroked bag">
+          <use xlink:href="#stroked-app-window"></use>
+        </svg>
+        Quản lý sản phẩm</a
+      >
+    </li>
+    <li class="active">
+      <a href="/admin/comments"
+        ><svg class="glyph stroked bag">
+          <use xlink:href="#stroked-app-window"></use>
+        </svg>
+        Quản lý bình luận</a
+      >
+    </li>
+    <li>
+      <a href="/admin/orders"
+        ><svg class="glyph stroked bag">
+          <use xlink:href="#stroked-app-window"></use>
+        </svg>
+        Quản lý đơn hàng</a
+      >
+    </li>
+    <li>
+      <a href="/admin/sliders"
+        ><svg class="glyph stroked bag">
+          <use xlink:href="#stroked-app-window"></use>
+        </svg>
+        Quản lý slider</a
+      >
+    </li>
+    <li>
+      <a href="/admin/banners"
+        ><svg class="glyph stroked bag">
+          <use xlink:href="#stroked-app-window"></use>
+        </svg>
+        Quản lý quảng cáo</a
+      >
+    </li>
+  </ul>
+</div>
+<!--/.sidebar-->
+
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+  <div class="row">
+    <ol class="breadcrumb">
+      <li>
+        <a href="/admin/dashboard"
+          ><svg class="glyph stroked home">
+            <use xlink:href="#stroked-home"></use></svg
+        ></a>
+      </li>
+      <li><a href="/admin/comments">Quản lý bình luận</a></li>
+      <li class="active"><%= comment?.prd_id?.name %></li>
+    </ol>
+  </div>
+  <!--/.row-->
+
+  <div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">
+        Bình luận của sản phẩm: <%= comment?.prd_id?.name %>
+      </h1>
+    </div>
+  </div>
+  <!--/.row-->
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <form role="form" method="post">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Tên sản phẩm</label>
+                <input
+                  type="text"
+                  name="prd_id"
+                  required
+                  class="form-control"
+                  value="<%= comment?.prd_id?.name %>"
+                  disabled
+                />
+                <img
+                  src="http://localhost:7979/static/images/<%= comment?.prd_id?.thumbnail %>"
+                  alt="Ảnh sản phẩm"
+                  style="max-width: 100px; display: block"
+                />
+              </div>
+              <div class="form-group">
+                <label>Tên người bình luận</label>
+                <input
+                  type="text"
+                  name="full_name"
+                  required
+                  class="form-control"
+                  value="<%= comment.full_name %>"
+                />
+              </div>
+
+              <div class="form-group">
+                <label>Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  class="form-control"
+                  value="<%= comment.email %>"
+                />
+              </div>
+
+              <div class="form-group">
+                <label>Nội dung bình luận</label>
+                <textarea
+                  id="content"
+                  name="body"
+                  required
+                  class="form-control"
+                  rows="4"
+                >
+<%= comment.body %></textarea
+                >
+              </div>
+
+              <button type="submit" class="btn btn-primary">Cập nhật</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Tải CKEditor từ CDN -->
+<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    ClassicEditor.create(document.querySelector('#content'));
+  });
+</script>
+
+<%- include('../partial/footer') %>

@@ -226,7 +226,8 @@ export class AppController {
   }
 
   // BANNER START--------------------------------------------------------------------------------------
-  // Lấy tất cả (banner) web khác
+
+  // Lấy tất cả (banner) quảng cáo cho web khác
   @Get('banners')
   @UseGuards(AuthenticatedGuard)
   @Render('banner/banner')
@@ -276,6 +277,7 @@ export class AppController {
 
   // BANNER END--------------------------------------------------------------------------------------
   // COMMENT START--------------------------------------------------------------------------------------
+
   // Lấy tất cả (comment) bình luận
   @Get('comments')
   @UseGuards(AuthenticatedGuard)
@@ -310,6 +312,7 @@ export class AppController {
 
   // COMMENT END--------------------------------------------------------------------------------------
   // ORDER START----------------------------------------------------------------------------------------
+
   // Lấy tất cả (order) đơn hàng
   @Get('orders')
   @UseGuards(AuthenticatedGuard)
@@ -344,7 +347,8 @@ export class AppController {
 
   // ORDER END----------------------------------------------------------------------------------------
   // SLIDER START----------------------------------------------------------------------------------------
-  // Lấy tất cả (slider) quảng cáo
+
+  // Lấy tất cả (slider) quảng cáo của shop
   @Get('sliders')
   @UseGuards(AuthenticatedGuard)
   @Render('slider/slider')

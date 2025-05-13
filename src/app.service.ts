@@ -434,7 +434,7 @@ export class AppService {
 
   // BANNER START---------------------------------------------------------------------------------------------------------------------------
 
-  // Hàm lấy tất cả (banner) web khác
+  // Hàm lấy tất cả (banner) quảng cáo cho web khác
   async getAllBanners(query: any) {
     const limit = parseInt(query.limit) || 10;
     const page = parseInt(query.page) || 1;
@@ -679,7 +679,7 @@ export class AppService {
   // ORDER END----------------------------------------------------------------------------------------------------------------------------
   // SLIDER START---------------------------------------------------------------------------------------------------------------------------
 
-  // Hàm lấy tất cả (slider) quảng cáo
+  // Hàm lấy tất cả (slider) quảng cáo của shop
   async getAllSliders(query: any) {
     const limit = parseInt(query.limit) || 10;
     const page = parseInt(query.page) || 1;

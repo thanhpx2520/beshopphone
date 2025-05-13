@@ -54,7 +54,7 @@ export class AuthsService {
 
   async login(dto: LoginAuthDto) {
     const user = await this.authModel.findOne({ email: dto.email });
-    console.log(user);
+    
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
     }

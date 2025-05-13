@@ -105,8 +105,6 @@ export class ProductsService {
       },
     ]);
 
-    console.log(product, related);
-
     return { product, related };
   }
 

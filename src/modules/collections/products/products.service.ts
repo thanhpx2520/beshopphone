@@ -92,7 +92,22 @@ export class ProductsService {
     if (!product) {
       throw new NotFoundException(`Product with id ${id} not found`);
     }
-    return product;
+
+    const related = await this.productModel.aggregate([
+      {
+        $match: {
+          cat_id: product.cat_id,
+          _id: { $ne: product._id },
+        },
+      },
+      {
+        $sample: { size: 3 },
+      },
+    ]);
+
+    console.log(product, related);
+
+    return { product, related };
   }
 
   async findCommentById(

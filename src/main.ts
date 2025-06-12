@@ -52,7 +52,11 @@ async function bootstrap() {
   app.register(fastifyMultipart);
 
   app.enableCors({
-    origin: ['http://localhost:3000', 'http://localhost:7979'],
+    origin: [
+      'http://localhost:3000',
+      'http://localhost:7979',
+      'https://feshopphone.vercel.app/',
+    ],
     credentials: true,
   });
 

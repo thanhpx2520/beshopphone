@@ -289,12 +289,20 @@ export class AppService {
   }
 
   async getProducts(query: any) {
+    const search = query.search?.trim() || '';
     const limit = parseInt(query.limit) || 10;
     const page = parseInt(query.page) || 1;
-    const total = await this.productModel.countDocuments();
+
+    const filter: any = {};
+
+    if (search) {
+      filter.name = { $regex: search, $options: 'i' };
+    }
+
+    const total = await this.productModel.countDocuments(filter);
 
     const products = await this.productModel
-      .find()
+      .find(filter)
       .populate('cat_id', 'title')
       .sort({ createdAt: -1 })
       .skip((page - 1) * limit)
